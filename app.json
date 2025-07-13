@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Food",
-    "slug": "Food",
+    "name": "foody",
+    "slug": "foody",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "food",
+    "scheme": "fastfood",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
