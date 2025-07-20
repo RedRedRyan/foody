@@ -8,6 +8,10 @@ export const appwriteConfig = {
     platform: 'com.jsm.foody',
     databaseId: '6874e7310032b2bc3692',
     userCollectionId: '6874e7a70022a90bb228',
+    categoriesCollectionId: '687d4854002bb0667056',
+    menuCollectionId: '687d492d0031288395cd',
+    customizationsCollectionId: '687d4b6c003af262dd3f',
+    menuCustomizationsCollectionId: '687d4ca4001d596ad946',
 
 }
 export const client = new Client();
