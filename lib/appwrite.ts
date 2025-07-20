@@ -10,64 +10,63 @@ export const appwriteConfig = {
     userCollectionId: '6874e7a70022a90bb228',
 
 }
-
-export const client= new Client();
+export const client = new Client();
 
 client
-        .setEndpoint(appwriteConfig.endpoint)
-        .setProject(appwriteConfig.projectId)
-        .setPlatform(appwriteConfig.platform)
+    .setEndpoint(appwriteConfig.endpoint)
+    .setProject(appwriteConfig.projectId)
+    .setPlatform(appwriteConfig.platform)
+
 export const account = new Account(client);
 export const databases = new Databases(client);
 const avatars = new Avatars(client);
 
-export const createUser = async ({email, password, name}: CreateUserParams) => {
+export const createUser = async ({ email, password, name }: CreateUserParams) => {
     try {
-        const newAccount = await account.create(ID.unique(), email, password, name);
-        if(!newAccount) throw  Error;
+        const newAccount = await account.create(ID.unique(), email, password, name)
+        if(!newAccount) throw Error;
 
-        await signIn({email, password});
-        const avatarUrl = avatars.getInitials(name);
+        await signIn({ email, password });
 
-        return  await databases.createDocument(
+        const avatarUrl = avatars.getInitialsURL(name);
+
+        return await databases.createDocument(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
             ID.unique(),
-            {accountId: newAccount.$id,email, name, avatar: avatarUrl}
+            { email, name, accountId: newAccount.$id, avatar: avatarUrl }
         );
-
     } catch (e) {
         throw new Error(e as string);
-
     }
 }
 
-export const signIn = async ({email, password}: SignInParams)=>{
+export const signIn = async ({ email, password }: SignInParams) => {
     try {
-        const session = await account.createEmailPasswordSession(email,password);
-
-    }catch (e) {
-        throw new  Error(e as string);
-
+        const session = await account.createEmailPasswordSession(email, password);
+    } catch (e) {
+        throw new Error(e as string);
     }
-
 }
-export const getCurrentUser = async ()=>{
+
+
+export const getCurrentUser = async () => {
     try {
         const currentAccount = await account.get();
-        if(!currentAccount) throw  Error;
+        if(!currentAccount) throw Error;
 
         const currentUser = await databases.listDocuments(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
-            [Query.equal('accountId', currentAccount.$id)],
+            [Query.equal('accountId', currentAccount.$id)]
         )
-        if(!currentUser) throw  Error;
+
+        if(!currentUser) throw Error;
+
         return currentUser.documents[0];
-
-    }catch (e) {
+    } catch (e) {
         console.log(e);
-        throw new  Error(e as string);
-
+        throw new Error(e as string);
     }
 }
+
